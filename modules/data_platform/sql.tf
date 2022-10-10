@@ -1,10 +1,6 @@
 data "azurerm_client_config" "this" {
 }
 
-data "azuread_user" "sql_admin" {
-  user_principal_name = var.sql_admin
-}
-
 resource "azurerm_mssql_server" "sql" {
   name                         = "sql-${var.name}"
   resource_group_name          = var.rg_name
