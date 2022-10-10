@@ -200,7 +200,7 @@ Test out the Key Vault module in the repository.
 
 
 
-# 5. Ifs and Loops
+# 6. Ifs and Loops
 
 Sometimes you will need to make your resource configurations more flexible to create resources based on variables or to create multiple resources. This is where ifs and loops become useful.
 
@@ -211,7 +211,7 @@ There is no if statement for resources in Terraform, but we can use `count` to a
 In the `variables.tf` of the module, there is a `create_dl`. Use that variable and count to either create or not create the data lake and it's associated resources.
 
 
-# 6. Using remote state
+# 7. Using remote state
 
 Create a storage account in Azure to be used for a remote state location and add a container in it. You can use your preferred method by either using the portal or even creating a script for it.
 
