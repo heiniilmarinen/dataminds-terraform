@@ -198,3 +198,36 @@ module "data" {
 
 Test out the Key Vault module in the repository.
 
+
+
+# 5. Ifs and Loops
+
+Sometimes you will need to make your resource configurations more flexible to create resources based on variables or to create multiple resources. This is where ifs and loops become useful.
+
+## Ifs
+
+There is no if statement for resources in Terraform, but we can use `count` to achieve this. Continue the exercises with the `data_platform` module in this repository that you used in the previous exercise. 
+
+In the `variables.tf` of the module, there is a `create_dl`. Use that variable and count to either create or not create the data lake and it's associated resources.
+
+
+# 6. Using remote state
+
+Create a storage account in Azure to be used for a remote state location and add a container in it. You can use your preferred method by either using the portal or even creating a script for it.
+
+In your `main.tf` file, add the following configuration and fill in with the information of the created storage account:
+
+```
+terraform {
+  backend "azurerm" {
+    resource_group_name  = ""
+    storage_account_name = ""
+    container_name       = ""
+    key                  = "data.tfstate"
+  }
+}
+```
+
+Run `terraform plan`. 
+Terraform will recognize that the backend configuration has changed and requires you to re-initialize it.
+To do this run `terraform init -migrate-state`. You can check the new state after this and after that remove the local state.
