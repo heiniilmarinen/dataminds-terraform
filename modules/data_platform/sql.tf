@@ -13,7 +13,7 @@ resource "azurerm_mssql_server" "sql" {
 
   azuread_administrator {
     login_username              = var.sql_admin
-    object_id                   = azurerm_client_config.this.object_id
+    object_id                   = data.azurerm_client_config.this.object_id
     azuread_authentication_only = true
   }
 }

@@ -12,6 +12,7 @@ variable "location" {
 
 variable "create_dl" {
   type = bool
+  default = true
 }
 
 variable "sql_admin" {

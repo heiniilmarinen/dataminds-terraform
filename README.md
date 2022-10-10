@@ -168,3 +168,33 @@ Find the import section on the Terraform documentation and verify how the resour
 ```
 terraform import azurerm_data_factory.df /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example/providers/Microsoft.DataFactory/factories/df-your-unique-name
 ```
+
+
+# 5. Using modules
+
+You can find a data platform module in this reository in the modules folder. Add this module to your code base as well, ensure that the module contents stay in their own folder.
+
+Before doing this exercise you can delete the previous resources with `terraform destroy` or you can create these resources in a separate resource group and with different names.
+
+## Calling the child module
+
+To use the above module we will have to call it from our root module. The data platform module defines some variables that don't have default values. These will have to be defined when calling from the child module. In the main directory where you initially started working (this is where you have your `sql.tf` and `main.tf` files), add a `data.tf` file. In the file add the following configuration:
+
+```
+module "data" {
+  source = "./modules/data_platform"
+
+  name      = var.env_name
+  rg_name   = azurerm_resource_group.rg.name
+  location  = azurerm_resource_group.rg.location
+  sql_admin = "youraccount"
+}
+```
+
+**Note:** Check how we referenced the resource group name and location.
+
+
+### Bonus task
+
+Test out the Key Vault module in the repository.
+
