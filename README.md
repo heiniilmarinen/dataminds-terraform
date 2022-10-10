@@ -120,3 +120,51 @@ We also need to reference the server we defined above. How can you reference the
 ## Modify resources
 
 Change some of the parameters in your resource configurations one at a time and see what kind of changes that results in. Can you find changes that are applied on the fly? How about chenges that force the resource to be created again?
+
+
+
+# 3. Use Variables
+
+## Add variables
+
+We have started to possibly repeat some naming patterns across our resources, so it would make sense to define this as a variable.
+
+1. Create a `variables.tf` file in your directory.
+
+2. Define a variable block with name `env_name`, add `type = string` and `default = "your value to use in names of resources"`
+
+3. Update your previous resources (resource group and Azure SQL resources) to reference this variable. You can for example update the database resource name to be:
+```
+name      = "db-${var.env_name}"
+```
+
+## Add outputs
+
+There might also be some values from our resources that we might need to print out after a deployment process or we might need to reference a value from a separate Terraform configuration. In that case we need outputs.
+
+1. Create a `output.tf` file in your directory.
+
+2. Create an output block named `sql-endpoint` with the following parameter:
+```
+value = azurerm_mssql_server.this.fully_qualified_domain_name
+```
+
+## Terraform validate
+
+When you are making bigger changes to your Terraform confguration, it is a good idea to validate it with `terraform validate`. After this you can proceed with `terraform plan` and `terraform apply` steps as usual.
+
+
+
+# 4. Handle existing resources
+
+Create a resource of your choosing, for example Data Factory in your resource group through the Azure portal or Azure CLI in the same resource group you created previously. Try running `terraform plan` after this and see what happens.
+
+Terraform will not become automatically aware of this new resource, instead they need to be imported to Terraform state. 
+
+Find the Terraform documentation page for the resource you chose to create. Grab the sample from the documentation, but change the terraform name for the resource to what you would like it to be, for example `df` for Data Factory. Now run `terraform plan` again, Terraform will think that it will have to create these resources.
+
+Find the import section on the Terraform documentation and verify how the resource should be imported. You can find the Terraform resource reference from the plan and then you will need to fetch the resource id from the Azure portal. Your import command should look something like this:
+
+```
+terraform import azurerm_data_factory.df /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/example/providers/Microsoft.DataFactory/factories/df-your-unique-name
+```
